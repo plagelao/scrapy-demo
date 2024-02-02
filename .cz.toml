@@ -1,0 +1,3 @@
+[tool.commitizen]
+tag_format = "v$major.$minor.$patch"
+version = "0.0.1"

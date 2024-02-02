@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "demo"
+version = "0.0.1"
+description = "Custom crawler that indexes the content in Algolia"
+authors = ["Alberto Peña Abril <plagelao@gmail.com>"]
+readme = "README.md"
+packages = [{include = "demo"}]
+
+# Implict main dependencies
+[tool.poetry.dependencies]
+python = ">=3.11,<=3.12"
+# Scrapy = "^2.11.0"
+algoliasearch = "^3.0.0"
