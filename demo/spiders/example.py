@@ -7,11 +7,15 @@ class ExampleSpider(scrapy.Spider):
     name = "example"
     allowed_domains = ["plagelao.github.io"]
     start_urls = [
-            "https://plagelao.github.io/articles/software%20development/search/explanations/2023/11/19/about-search.html",
-            "https://plagelao.github.io/articles/software%20development/jekyll/tutorials/2023/11/12/adding-categories-and-tags-to-the-site.html",
+            "https://plagelao.github.io/articles/",
             ]
 
     def parse(self, response):
+        for article_url in response.xpath('//h3/a/@href'):
+            url = response.urljoin(article_url.extract())
+            yield scrapy.Request(url, callback = self.parse_article)
+
+    def parse_article(self, response):
         item = Article()
         item['title'] = ' '.join(''.join(response.css('h2 *::text').extract()).split())
         item['body'] = ' '.join(''.join(response.css('article *::text').extract()).split())
@@ -19,4 +23,5 @@ class ExampleSpider(scrapy.Spider):
         item['tags'] =  response.css('.tag::text').extract()
         item['url'] = response.url
         item['objectID'] = response.url
-        return item
+        yield item
+
